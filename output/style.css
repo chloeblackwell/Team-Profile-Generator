@@ -1,0 +1,15 @@
+.card-header {
+  background-color: pink;
+}
+
+.team-heading {
+  background: steelblue;
+}
+
+h2 {
+  text-align: left;
+}
+
+.employee-card {
+  margin-left: 50px;
+}

@@ -88,7 +88,7 @@ const userQuestions = [
     },
     {
         type: "confirm",
-        message: "Would you like to add another member?",
+        message: "Would you like to add another team member?",
         default: true,
         name: "addTeamMembers"
     }
