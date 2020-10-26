@@ -12,10 +12,32 @@ const render = require("./lib/htmlRenderer");
 const Employee = require("./lib/Employee");
 
 
+// Validation for email and ID's 
+let usedIDs = [];
+let suggestId = 123;
+const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
+const idValidator = async (input) => {
+    if (/[^0-9]/.test(input)) {
+        return 'Please enter a number.'
+    } else {
+        for (let i = 0; i < usedIDs.length; i++) {
+            if (input === usedIDs[i]) {
+                return 'This ID is already taken. Please use a unique ID.';
+            }
+        }
+        usedIDs.push(input);
+        suggestId++;
 
+        return true;
+    }
+};
+
+const emailValidator = async (input) => {
+    return emailRegEx.test(input) ? true : 'Please enter a valid email address';
+}
+
+// User Input questions 
 const userQuestions = [
     {
         type: "list",
@@ -32,11 +54,13 @@ const userQuestions = [
         type: "input",
         name: "id",
         message: "What is your Employee ID?",
+        validate: idValidator,
     },
     {
         type: "input",
         name: "email",
         message: "What is your email?",
+        validate: emailValidator,
     },
     {
         type: "input",
@@ -80,6 +104,7 @@ async function teamMembers(teamMemberInput = []) {
     }
 }
 
+// Render the HTML file 
 async function renderFile() {
     try {
         const employees = [];
